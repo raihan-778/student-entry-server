@@ -28,8 +28,9 @@ async function run() {
     app.post("/student-info", async (req, res) => {
       const query = req.body;
       const result = await studentCollection.insertOne(query);
-      console.log("add student info", result);
+
       res.send(result);
+      console.log("add student info", result);
     });
 
     //delete method for delete studeint info from db
@@ -48,7 +49,7 @@ async function run() {
     });
 
     //patch api for edit & update student info
-    app.put("/my-tasks-update/:id", async (req, res) => {
+    app.put("/student-info/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: ObjectId(id) };
       const about = req.body;
@@ -56,7 +57,7 @@ async function run() {
       const updatedDoc = {
         $set: { title: about.title },
       };
-      const result = await tasksCollection.updateOne(
+      const result = await studentCollection.updateOne(
         filter,
         updatedDoc,
         options
