@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const port = process.env.PORT || 5000;
 require("dotenv").config();
 
@@ -33,13 +33,6 @@ async function run() {
       console.log("add student info", result);
     });
 
-    //delete method for delete studeint info from db
-    app.delete("/student-info/:id", async (req, res) => {
-      const query = req.params.id;
-      const filter = { _id: ObjectId(id) };
-      result = await studentCollection.deleteOne(filter);
-      res.send(result);
-    });
     // get method for find student info
 
     app.get("/student-info", async (req, res) => {
@@ -48,6 +41,14 @@ async function run() {
       res.send(result);
     });
 
+    //delete method for delete studeint info from db
+    app.delete("/student-info/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      result = await studentCollection.deleteOne(filter);
+      res.send(result);
+      console.log(result);
+    });
     //patch api for edit & update student info
     app.put("/student-info/:id", async (req, res) => {
       const id = req.params.id;
