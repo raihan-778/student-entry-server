@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { MongoClient, ObjectId } = require("mongodb");
+const { MongoClient, ObjectId, ServerApiVersion } = require("mongodb");
 const port = process.env.PORT || 5000;
 require("dotenv").config();
 
@@ -16,7 +16,11 @@ app.use(express.json());
 const uri =
   "mongodb+srv://studentEntry:FQBt9hUa5Th8Qf39@cluster0.jz1qjld.mongodb.net/?retryWrites=true&w=majority";
 
-const client = new MongoClient(uri);
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: ServerApiVersion.v1,
+});
 
 async function run() {
   try {
@@ -41,10 +45,17 @@ async function run() {
       res.send(result);
     });
 
-    //delete method for delete studeint info from db
+    //get method for delete studeint info from db
+    app.get("/student-info/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      result = await studentCollection.findOne(filter);
+      res.send(result);
+      console.log(result);
+    });
     app.delete("/student-info/:id", async (req, res) => {
       const id = req.params.id;
-      const filter = { _id: ObjectId(id) };
+      const filter = { _id: new ObjectId(id) };
       result = await studentCollection.deleteOne(filter);
       res.send(result);
       console.log(result);
@@ -52,7 +63,7 @@ async function run() {
     //patch api for edit & update student info
     app.put("/student-info/:id", async (req, res) => {
       const id = req.params.id;
-      const filter = { _id: ObjectId(id) };
+      const filter = { _id: new ObjectId(id) };
       const about = req.body;
       const options = { upsert: true };
       const updatedDoc = {

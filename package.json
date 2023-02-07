@@ -2,7 +2,7 @@
   "name": "student-entry-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.jsx",
   "scripts": {
     "start": "node index.jsx",
     "dev": "nodemon index.jsx",
