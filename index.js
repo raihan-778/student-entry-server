@@ -13,8 +13,7 @@ app.use(express.json());
 //mongodb database:studentEntry
 
 // MongoDB crud operation start
-const uri =
-  "mongodb+srv://studentEntry:FQBt9hUa5Th8Qf39@cluster0.jz1qjld.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://studentEntry:FQBt9hUa5Th8Qf39@cluster0.jz1qjld.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
